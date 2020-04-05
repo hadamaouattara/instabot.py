@@ -1221,19 +1221,23 @@ class InstaBot:
                 raw_data = re.search(
                     "window.__additionalDataLoaded\\('/p/[\\w-]+/',(.*?)\\);",
                     resp.text, re.DOTALL).group(1)
-                all_data = json.loads(raw_data)
+                all_data = json.loads(raw_data)['graphql']['shortcode_media']
 
-                if all_data['graphql']['shortcode_media']['owner']['id'] == \
-                        self.user_id:
+                if all_data['owner']['id'] == self.user_id:
                     self.logger.debug(f"This media {media_code}, url: "
                                       f"{url_check} is yours. Skipping it")
                     return False
 
-                edges = all_data['graphql']['shortcode_media'].get(
-                    'edge_media_to_comment', None)
+                if all_data['comments_disabled'] \
+                        or all_data['commenting_disabled_for_viewer']:
+                    self.logger.debug(
+                        f"Comments are disabled on this media {media_code}, "
+                        f"url: {url_check}. Skipping it")
+                    return False
+
+                edges = all_data.get('edge_media_to_comment', None)
                 if not edges:
-                    edges = all_data['graphql']['shortcode_media'].get(
-                        'edge_media_to_parent_comment', None)
+                    edges = all_data.get('edge_media_to_parent_comment', None)
 
                 comments = list(edges['edges'])
                 for comment in comments:

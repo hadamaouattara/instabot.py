@@ -12,3 +12,4 @@
 | 0.7.3   | Add Telegram handler package |
 |         | Fix issue with posts commenting (issue 2578) |
 | 0.7.4   | Bot can run many days without interruption (issue 2402) |
+| 0.7.5   | Skip chosen media for commenting if comments are disabled on it |

@@ -905,18 +905,26 @@ class InstaBot:
 
     def get_followers_count(self, username):
         url_info = self.url_user_detail % username
-        try:
-            resp = self.s.get(url_info)
+        resp = self.s.get(url_info)
+        if resp.status_code == 200:
             all_data = json.loads(
                 re.search("window._sharedData = (.*?);</script>", resp.text,
                           re.DOTALL).group(1))
             followers_count = all_data['entry_data']['ProfilePage'][0][
                 'graphql']['user']['edge_followed_by']['count']
-        except Exception as exc:
-            self.logger.warning(f"Could not retrieve number of followers of "
-                                f"user {username}, url: {url_info}. Status "
-                                f"code: {resp.status_code}")
+        elif resp.status_code == 429:
+            self.logger.critical(
+                f"Too many requests are sending to Instagram. It seems like a "
+                f"big numbers to actions like 'followers_per_run' are set in a "
+                f"configuration. Please wait for {resp.headers['retry-after']} "
+                f"seconds and only after that start the bot again")
+            exit(1)
+        else:
+            self.logger.warning(
+                f"Could not retrieve number of followers of user {username}, "
+                f"url: {url_info}. Status code: {resp.status_code}")
             followers_count = 0
+
         return followers_count
 
     def verify_account_name(self, username):

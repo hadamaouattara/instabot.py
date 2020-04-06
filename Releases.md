@@ -13,3 +13,4 @@
 |         | Fix issue with posts commenting (issue 2578) |
 | 0.7.4   | Bot can run many days without interruption (issue 2402) |
 | 0.7.5   | Skip chosen media for commenting if comments are disabled on it |
+| 0.7.6   | Stop the bot if we sent "Too many requests to Instagram" (issue 2582) |

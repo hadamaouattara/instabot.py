@@ -15,3 +15,4 @@
 | 0.7.5   | Skip chosen media for commenting if comments are disabled on it |
 | 0.7.6   | Stop the bot if we sent "Too many requests to Instagram" (issue 2582) |
 | 0.7.7   | Notify about bot's settings when bot starts (issue 2568) |
+| 0.7.8   | Fix issue with message output when IG banned account due to "Too many requests" |

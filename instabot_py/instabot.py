@@ -933,10 +933,10 @@ According to the configuration this bot will:
                 'graphql']['user']['edge_followed_by']['count']
         elif resp.status_code == 429:
             self.logger.critical(
-                f"Too many requests are sending to Instagram. It seems like a "
-                f"big numbers to actions like 'followers_per_run' are set in a "
-                f"configuration. Please wait for {resp.headers['Retry-After']} "
-                f"seconds and only after that start the bot again")
+                f"Too many requests has been sent to Instagram. It seems like a"
+                f" big numbers are set to actions like 'followers_per_run' in a"
+                f" configuration. Please wait for some time before start the "
+                f"bot again")
             exit(1)
         else:
             self.logger.warning(

@@ -476,6 +476,25 @@ class InstaBot:
             self.logout()
         self.prog_run = False
 
+    def notify_about_settings(self):
+        cmt = f"COMMENT medias every {self.sec_to_time(self.comments_delay)}\n"\
+            if self.comments_per_run else ''
+        lk = f"LIKE medias every {self.sec_to_time(self.like_delay)}\n" \
+            if self.like_per_run else ''
+        ulk = f"UNLIKE medias every {self.sec_to_time(self.unlike_delay)}\n" \
+            if self.unlike_per_run else ''
+        fw = f"FOLLOW users every {self.sec_to_time(self.follow_delay)}\n" \
+            if self.follow_per_run else ''
+        ufw = f"UNFOLLOW users every {self.sec_to_time(self.unfollow_delay)}\n"\
+            if self.unlike_per_run else ''
+
+        message = f"""
++++++++++++++++++++++++++++++++++++++++++++++++
+According to the configuration this bot will:
+{lk}{ulk}{fw}{ufw}{cmt}+++++++++++++++++++++++++++++++++++++++++++++++"""
+        self.logger.info(message)
+        return
+
     def get_media_id_by_tag(self, tag):
         """ Get media ID set, by your hashtag or location """
         medias = None
@@ -916,7 +935,7 @@ class InstaBot:
             self.logger.critical(
                 f"Too many requests are sending to Instagram. It seems like a "
                 f"big numbers to actions like 'followers_per_run' are set in a "
-                f"configuration. Please wait for {resp.headers['retry-after']} "
+                f"configuration. Please wait for {resp.headers['Retry-After']} "
                 f"seconds and only after that start the bot again")
             exit(1)
         else:
@@ -1283,6 +1302,29 @@ class InstaBot:
             logging.exception(exc)
             media_on_feed = []
         return media_on_feed
+
+    @staticmethod
+    def sec_to_time(t):
+        t = int(t)
+        h = t // 3600
+        t %= 3600
+        m = t // 60
+        t %= 60
+        s = t
+        if h == 0:
+            mg = str(m) + (" minute, " if m == 1 else " minutes, ") + str(s) + \
+                (" second" if s == 1 else " seconds")
+            if m == 0:
+                mg = str(s) + (" second" if s == 1 else " seconds")
+        elif m == 0:
+            if m == 0:
+                mg = str(h) + (" hour, " if h == 1 else " hours, ") + str(s) + \
+                  (" second" if s == 1 else " seconds")
+        else:
+            mg = str(h) + (" hour, " if h == 1 else " hours, ") + str(m) + \
+                  (" minute, " if m == 1 else " minutes, ") + str(s) + \
+                  (" second" if s == 1 else " seconds")
+        return mg
 
     @staticmethod
     def generate_time(t):

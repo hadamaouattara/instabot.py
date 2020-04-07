@@ -368,6 +368,7 @@ or
 """)
         exit(1)
 
+    bot.notify_about_settings()
     bot.mainloop()
 
 

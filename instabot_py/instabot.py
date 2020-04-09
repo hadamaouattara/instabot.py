@@ -933,10 +933,12 @@ According to the configuration this bot will:
                 'graphql']['user']['edge_followed_by']['count']
         elif resp.status_code == 429:
             self.logger.critical(
-                f"Too many requests has been sent to Instagram. It seems like a"
-                f" big numbers are set to actions like 'followers_per_run' in a"
-                f" configuration. Please wait for some time before start the "
-                f"bot again")
+                f"It seems like Instagram detected and blocked bot's actions. "
+                f"Maybe big numbers are set to actions like 'followers_per_run'"
+                f"or 'follow_attempts' setting in a configuration. Please "
+                f"decrease them and wait for some time before start the bot "
+                f"again. Also it is a good idea to delete your "
+                f"'{self.session_file}.session' file before that")
             exit(1)
         else:
             self.logger.warning(

@@ -69,6 +69,7 @@ The `%username%.session` file stores your session with Instagram to avoid re-log
 | start\_at\_m         | int | Start program at the min                             | 0    |
 | end\_at\_h           | int | End program at the hour                              | 23   |
 | end\_at\_m           | int | End program at the min                               | 59   |
+| debug                | int | Enable (1) or disable (0) debug mode                 | 1    |
 | database             | dict| Contains the database configuration                  | {"type": "sql", "connection_string": "sqlite:///{{login}}.db"}   |
 | session\_file        | str | change the name of session file so to avoid having to login every time. Set False to disable. | "username.session"   |
 | user_agent           | str | Custom User Agent to look like a real browser        | None |

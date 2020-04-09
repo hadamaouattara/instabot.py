@@ -18,3 +18,4 @@
 | 0.7.8   | Fix issue with message output when IG banned account due to "Too many requests" |
 | 0.7.9   | Make message about blocked actions more clear (issue 2591) |
 |         | Rename all `*_per_day` variables into `*_per_run` ones |
+| 0.7.10  | Fix possibility to disable/enable bot's debug messages |

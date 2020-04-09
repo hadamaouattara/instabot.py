@@ -60,13 +60,18 @@ class InstaBot:
         else:
             self.config = config
 
+        self.logger_mode = 'DEBUG' if self.config.get('debug') else 'INFO'
+        self.logger.setLevel(self.logger_mode)
+
         _login = self.config.get('login')
         _password = self.config.get('password')
         if not _login or _login == 'YOUR_USERNAME' or \
                 not _password or _password == 'YOUR_PASSWORD':
             raise CredsMissing()
 
-        self.persistence = PersistenceManager(self.config.get('database'))
+        _database = self.config.get('database')
+        self.persistence = PersistenceManager(_database)
+        self.logger.debug(f"Init SQL database {_database['connection_string']}")
         self.persistence.bot = self
         self.session_file = self.config.get('session_file')
         # log_mod 0 to console, 1 to file

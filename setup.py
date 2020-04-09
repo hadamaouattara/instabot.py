@@ -3,12 +3,6 @@ import os.path
 from setuptools import setup, find_packages
 
 try:
-    import instabot_py
-    __version__ = instabot_py.__version__
-except:
-    __version__ = 'devel'
-
-try:
     here = os.path.abspath(os.path.dirname(__file__))
     README = open(os.path.join(here, 'README.md'), encoding='utf-8').read()
     with open(os.path.join(here, 'requirements/base.txt'),
@@ -23,7 +17,7 @@ setup(
     name='instabot-py',
     packages=find_packages(),
     package_data={'': ['sample.instabot.config.yml']},
-    version=__version__,
+    version="0.7.10",
     python_requires='>3.6.1',
     license='MIT',
     description="Instagram Python Bot",

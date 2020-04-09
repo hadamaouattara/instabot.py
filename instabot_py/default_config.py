@@ -22,7 +22,7 @@ LOGGING_CONFIG = {
 DEFAULT_CONFIG = {
     "config": {"file": "instabot.config.yml"},
     "logging": LOGGING_CONFIG,
-    "debug": 0,
+    "debug": 1,
     "database": {"type": "sql", "path": "{{login}}.db", "connection_string": "sqlite:///{{database.path}}"},
     "unfollow_selebgram": False,
     "user_blacklist": {},

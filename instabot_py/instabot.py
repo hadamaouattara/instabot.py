@@ -710,19 +710,32 @@ According to the configuration this bot will:
             url_follow = self.url_follow % user_id
             if not username:
                 username = self.get_username_by_user_id(user_id=user_id)
-            try:
-                resp = self.s.post(url_follow)
-                if resp.status_code == 200:
-                    self.follow_counter += 1
-                    self.logger.info(f"Followed user #{self.follow_counter}: "
-                                     f"username: {username}, "
-                                     f"url: {self.url_user(username)}")
-                    self.persistence.insert_username(user_id=user_id,
-                                                     username=username)
-                return resp
 
-            except:
-                logging.exception("Except on a follow action!")
+            resp = self.s.post(url_follow)
+            if resp.status_code == 200:
+                self.follow_counter += 1
+                self.logger.info(
+                    f"Followed user #{self.follow_counter}: username: "
+                    f"{username}, url: {self.url_user(username)}")
+                self.persistence.insert_username(user_id=user_id,
+                                                 username=username)
+                return resp
+            elif resp.status_code == 400:
+                self.logger.warning(
+                    f"Could not follow user: username: {username}, url: "
+                    f"{self.url_user(username)}, status code: "
+                    f"{resp.status_code}. Reason: {resp.text}")
+                self.logger.fatal(
+                    "Your follow action has just been blocked by Instagram. "
+                    "Exiting from a program... You can start your bot again if"
+                    " you disable follow action in your configuration: set "
+                    "'follow_per_run: 0'")
+                exit(0)
+            else:
+                self.logger.warning(
+                    f"Could not follow user: username: {username}, url: "
+                    f"{self.url_user(username)}, status code: "
+                    f"{resp.status_code}. Reason: {resp.text}")
         return False
 
     def unfollow(self, user_id, username=''):

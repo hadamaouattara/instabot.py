@@ -19,3 +19,4 @@
 | 0.7.9   | Make message about blocked actions more clear (issue 2591) |
 |         | Rename all `*_per_day` variables into `*_per_run` ones |
 | 0.7.10  | Fix possibility to disable/enable bot's debug messages |
+| 0.7.11  | Bot stops working if follow action is banned. Bot can be started again with `follow_per_run: 0` configuration setting |

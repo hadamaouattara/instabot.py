@@ -690,19 +690,30 @@ According to the configuration this bot will:
         self.logger.info(f"Trying to comment {media_id}, url: "
                          f"{self.get_media_url(media_id)}")
         url_comment = self.url_comment % media_id
+        media_url = self.get_media_url(media_id)
 
-        try:
-            resp = self.s.post(url_comment, data={'comment_text': comment_text})
-        except Exception as exc:
-            logging.exception(exc)
-            return False
-
+        resp = self.s.post(url_comment, data={'comment_text': comment_text})
         if resp.status_code == 200:
             self.comments_counter += 1
-            self.logger.info(f"Comment #{self.comments_counter}: "
-                             f"'{comment_text}' on media {media_id}, url: "
-                             f"{self.get_media_url(media_id)}")
+            self.logger.info(
+                f"Comment #{self.comments_counter}: '{comment_text}' on media "
+                f"{media_id}, url: {media_url}")
             return True
+        elif resp.status_code == 400:
+            self.logger.warning(
+                f"Could not comment media: id: {media_id}, url: {media_url}, "
+                f"status code: {resp.status_code}. Reason: {resp.text}")
+            self.logger.fatal(
+                "Your comment action has just been blocked by Instagram. "
+                "Exiting from a program... You can start your bot again if you "
+                "disable comment action in your configuration: set "
+                "'comment_per_run: 0'")
+            exit(0)
+        else:
+            self.logger.warning(
+                f"Could not comment media: id: {media_id}, url: {media_url}, "
+                f"status code: {resp.status_code}. Reason: {resp.text}")
+        return False
 
     def follow(self, user_id, username=None):
         """ Send http request to follow endpoint """
@@ -1239,7 +1250,6 @@ According to the configuration this bot will:
                     'node']['owner']['username'])
 
             media_id = media['node']['id']
-
             if not self.comment(media_id, comment_text):
                 self.persistence.insert_media(media['node']['id'], 'Error')
 

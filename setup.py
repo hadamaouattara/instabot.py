@@ -17,7 +17,7 @@ setup(
     name='instabot-py',
     packages=find_packages(),
     package_data={'': ['sample.instabot.config.yml']},
-    version="0.7.13",
+    version="0.7.14",
     python_requires='>3.6.1',
     license='MIT',
     description="Instagram Python Bot",

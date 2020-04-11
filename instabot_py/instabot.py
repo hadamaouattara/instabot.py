@@ -442,7 +442,7 @@ class InstaBot:
                                          f"{self.session_file}")
                         with open(self.session_file, "wb") as output:
                             pickle.dump(self.s.cookies, output,
-                                        pickle.HIGHEST_PROTOCOL)
+                                        pickle.DEFAULT_PROTOCOL)
                     # we need to wait between 3 to 9 seconds just after login
                     time.sleep(random.gauss(7, 2))
                 else:

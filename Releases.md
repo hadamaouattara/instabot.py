@@ -21,3 +21,4 @@
 | 0.7.10  | Fix possibility to disable/enable bot's debug messages |
 | 0.7.11  | Bot stops working if follow action is banned. Bot can be started again with `follow_per_run: 0` configuration setting |
 | 0.7.12  | Fixes some edge case when bot doesn't start and we use Python version < 3.8 (issue 2595) |
+| 0.7.13  | Bot stops working if unfollow action is banned. Bot can be started again with `unfollow_per_run: 0` configuration setting |

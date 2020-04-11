@@ -738,27 +738,33 @@ According to the configuration this bot will:
                     f"{resp.status_code}. Reason: {resp.text}")
         return False
 
-    def unfollow(self, user_id, username=''):
+    def unfollow(self, user_id, username=None):
         """ Send http request to unfollow endpoint"""
-        try:
-            resp = self.s.post(self.url_unfollow % user_id)
-        except Exception as exc:
-            logging.critical("Error while requesting the unfollow endpoint")
-            logging.exception(exc)
-            return False
-
+        resp = self.s.post(self.url_unfollow % user_id)
         if resp.status_code == 200:
             self.unfollow_counter += 1
             self.persistence.insert_unfollow_count(user_id=user_id)
-            self.logger.info(f"Unfollowed user #{self.unfollow_counter}: "
-                             f"username: {username}, "
-                             f"url: {self.url_user(username)}")
+            self.logger.info(
+                f"Unfollowed user #{self.unfollow_counter}: username: "
+                f"{username}, url: {self.url_user(username)}")
             return True
+        elif resp.status_code == 400:
+            self.logger.warning(
+                f"Could not unfollow user: username: {username}, url: "
+                f"{self.url_user(username)}, status code: "
+                f"{resp.status_code}. Reason: {resp.text}")
+            self.logger.fatal(
+                "Your unfollow action has just been blocked by Instagram. "
+                "Exiting from a program... You can start your bot again if"
+                " you disable unfollow action in your configuration: set "
+                "'unfollow_per_run: 0'")
+            exit(0)
         else:
-            self.logger.info(f"Could not unfollow user {username}: url: "
-                             f"{self.url_user(username)}, status code: "
-                             f"{resp.status_code}. Reason: {resp.text}")
-            return False
+            self.logger.warning(
+                f"Could not unfollow user: username: {username}, url: "
+                f"{self.url_user(username)}, status code: "
+                f"{resp.status_code}. Reason: {resp.text}")
+        return False
 
     # Backwards Compatibility for old example.py files
     def auto_mod(self):

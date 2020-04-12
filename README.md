@@ -108,37 +108,41 @@ The `%username%.session` file stores your session with Instagram to avoid re-log
 | unfollow_selebgram  | bool | Unfollow Condition: Unfollow (celebrity) accounts with too many followers and not enough following | False |
 | unfollow_everyone  | bool | Unfollow Condition: Will unfollow everyone in unfollow queue (wildcard condition) | False |
 
-## Contributing
-Please feel free to contribute and submit PR requests. All help is appreciated. Look for issues with the label [needs help](https://github.com/instabot-py/instabot.py/labels/needs%20help). If you want to be in developer team, please email me.
-
-## Instabot with yaml config
-By default, instabot looks for the configuration file `instabot.config.yml`.
- It could be changed by exporting environment variable with the full path:
-````bash
-export INSTABOT_CONFIG_FILE=/path/to/file/instabot2.config.yml
-````
-
+## Telegram channel for instabot-py's logs 
+1. [Create Telegram bot](https://core.telegram.org/bots#3-how-do-i-create-a-bot)
+2. Add the following settings into the configuration:
 
 ```yaml
-
 ---
-login : "username"
-password : "password"
-debug: 1
-#Send INFO notification to Telegram channel 
+# Send INFO notification to Telegram channel 
+logging.loggers.InstaBot.handlers:
+  - telegram
+  - console
+logging.version: 1
+logging.disable_existing_loggers: False
+logging.root.level: INFO
+logging.formatters.simple: 
+  format: '%(asctime)s - {{login}} - %(name)s - %(levelname)s - %(message)s'
 logging.handlers.telegram:
   level: INFO
   class: telegram_handler.TelegramHandler
   token: __YOUR__CHANNEL__TOKEN__
   chat_id: __CHAT_ID__
+  formatter: simple
+logging.handlers.console:
+  level: DEBUG
+  class: logging.StreamHandler
+  formatter: simple
+  stream: ext://sys.stdout
 logging.loggers.InstaBot.handlers:
   - telegram
   - console
 ```
 
-[Create Telegram bot for instabot](https://core.telegram.org/bots#3-how-do-i-create-a-bot)
-
 ## Community
 
 - [Telegram Group](https://t.me/joinchat/DYKH-0G_8hsDDoN_iE8ZlA)
+
+## Contributing
+Please feel free to contribute and submit PR requests. All help is appreciated. Look for issues with the label [needs help](https://github.com/instabot-py/instabot.py/labels/needs%20help). If you want to be in the developer team, please email me.
 

@@ -649,6 +649,7 @@ According to the configuration this bot will:
                               "Instagram. Exiting from a program... You can "
                               "start your bot again if you disable like action "
                               "in your configuration: set 'like_per_run: 0'")
+            self.remove_spoiled_session_file()
             exit(0)
         else:
             self.persistence.insert_media(media_id=media_id,
@@ -691,6 +692,7 @@ According to the configuration this bot will:
                 "Your unlike action has just been banned by Instagram. Exiting "
                 "from a program... You can start your bot again if you disable"
                 " unlike action in your configuration: set 'unlike_per_run: 0'")
+            self.remove_spoiled_session_file()
             exit(0)
         else:
             self.logger.warning(
@@ -721,6 +723,7 @@ According to the configuration this bot will:
                 "Exiting from a program... You can start your bot again if you "
                 "disable comment action in your configuration: set "
                 "'comment_per_run: 0'")
+            self.remove_spoiled_session_file()
             exit(0)
         else:
             self.logger.warning(
@@ -754,6 +757,7 @@ According to the configuration this bot will:
                     "Exiting from a program... You can start your bot again if"
                     " you disable follow action in your configuration: set "
                     "'follow_per_run: 0'")
+                self.remove_spoiled_session_file()
                 exit(0)
             else:
                 self.logger.warning(
@@ -782,6 +786,7 @@ According to the configuration this bot will:
                 "Exiting from a program... You can start your bot again if"
                 " you disable unfollow action in your configuration: set "
                 "'unfollow_per_run: 0'")
+            self.remove_spoiled_session_file()
             exit(0)
         else:
             self.logger.warning(

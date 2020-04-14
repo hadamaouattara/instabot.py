@@ -23,3 +23,4 @@
 | 0.7.12  | Fixes some edge case when bot doesn't start and we use Python version < 3.8 (issue 2595) |
 | 0.7.13  | Bot stops working if unfollow action is banned. Bot can be started again with `unfollow_per_run: 0` configuration setting |
 | 0.7.14  | Bot stops working if comment action is banned. Bot can be started again with `comment_per_run: 0` configuration setting |
+| 0.7.15  | Bot stops working if unlike action is banned. Bot can be started again with `unlike_per_run: 0` configuration setting |

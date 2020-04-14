@@ -491,7 +491,7 @@ class InstaBot:
         fw = f"FOLLOW users every {self.sec_to_time(self.follow_delay)}\n" \
             if self.follow_per_run else ''
         ufw = f"UNFOLLOW users every {self.sec_to_time(self.unfollow_delay)}\n"\
-            if self.unlike_per_run else ''
+            if self.unfollow_per_run else ''
 
         message = f"""
 +++++++++++++++++++++++++++++++++++++++++++++++
@@ -659,30 +659,43 @@ According to the configuration this bot will:
                              f"Reason: {resp.text}")
             return False
 
-    def unlike(self, media_id):
+    def unlike(self, media_id, media_url):
         """ Send http request to unlike media by ID """
-        url_unlike = self.url_unlike % (media_id)
         try:
-            resp = self.s.post(url_unlike)
+            self.s.get(self.url_unlike % media_id)
         except Exception as exc:
             logging.exception(exc)
-            return None
+            return False
+        # we need to wait between 2 to 8 seconds before we unlike a media
+        time.sleep(random.gauss(6, 1.5))
+        try:
+            resp = self.s.post(self.url_unlike % media_id)
+        except Exception as exc:
+            logging.exception(exc)
+            return False
 
         if resp.status_code == 200:
             self.persistence.update_media_complete(media_id)
-            self.unlike_counter += 1
-            self.logger.info(
-                f"Media Unliked: # {self.unlike_counter} id: {media_id}, url: {self.get_media_url(media_id)}")
             return True
         elif resp.status_code == 400 and resp.text == 'missing media':
             self.persistence.update_media_complete(media_id)
             self.logger.info(
-                f"Could not unlike media: id: {media_id}, url: {self.get_media_url(media_id)}. It seems "
-                f"this media is no longer exist.")
+                f"Could not unlike media: id: {media_id}, url: {media_url}. It "
+                f"seems this media does not exist anymore.")
+            return False
+        elif resp.status_code == 400:
+            self.logger.warning(
+                f"Could not unlike media: id: {media_id}, url: {media_url}, "
+                f"status code: {resp.status_code}. Reason: {resp.text}")
+            self.logger.fatal(
+                "Your unlike action has just been banned by Instagram. Exiting "
+                "from a program... You can start your bot again if you disable"
+                " unlike action in your configuration: set 'unlike_per_run: 0'")
+            exit(0)
         else:
-            self.logger.critical(f"Could not unlike media: id: {media_id}, url: {self.get_media_url(media_id)}. "
-                                 f"Status code : {resp.status_code} Reason: {resp.text}")
-
+            self.logger.warning(
+                f"Could not unlike media: id: {media_id}, url: {media_url}, "
+                f"status code: {resp.status_code}. Reason: {resp.text}")
         return False
 
     def comment(self, media_id, comment_text):
@@ -947,15 +960,21 @@ According to the configuration this bot will:
         return False
 
     def new_auto_mod_unlike(self):
-        if self.iteration_ready("unlike"):
-            self.init_next_iteration("unlike")
+        if self.iteration_ready('unlike'):
+            self.init_next_iteration('unlike')
             media_id = self.persistence.get_medias_to_unlike()
+            media_url = self.get_media_url(media_id)
             if media_id:
-                self.logger.debug("Trying to unlike media")
-                if self.unlike(media_id):
+                self.logger.debug(
+                    f"Trying to unlike media #{self.like_counter + 1}: id: "
+                    f"{media_id}, url: {media_url}")
+                if self.unlike(media_id, media_url):
+                    self.like_counter += 1
+                    self.logger.info(f"Unliked media #{self.like_counter}: "
+                                     f"id: {media_id}, url: {media_url}")
                     return True
             else:
-                self.logger.debug("Nothing to unlike")
+                self.logger.debug("Nothing to unlike right now")
 
     def get_followers_count(self, username):
         url_info = self.url_user_detail % username

@@ -25,3 +25,4 @@
 | 0.7.14  | Bot stops working if comment action is banned. Bot can be started again with `comment_per_run: 0` configuration setting |
 | 0.7.15  | Bot stops working if unlike action is banned. Bot can be started again with `unlike_per_run: 0` configuration setting |
 | 0.7.16  | .session file is deleted automatically if bot exists because of any action has been blocked |
+| 0.7.17  | Fix some edge case when bot stops if media does not exist anymore (issue 2610) |

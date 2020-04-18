@@ -19,13 +19,13 @@ schema = [
     dict(
         name="login",
         key="login",
-        source=dict(argv=["--login"]),
+        source=dict(argv=["--hadamao@hotmail.fr"]),
         description="Your instagram username",
         required=False
     ), dict(
         name="password",
         key="password",
-        source=dict(argv=["--password"]),
+        source=dict(argv=["--Datasysteme1&"]),
         description="Your instagram password",
         required=False
     ), dict(

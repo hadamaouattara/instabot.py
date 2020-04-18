@@ -18,14 +18,14 @@ from instabot_py.instabot import CredsMissing
 schema = [
     dict(
         name="login",
-        key="login",
-        source=dict(argv=["--hadamao@hotmail.fr"]),
+        key="hadamao@hotmail.fr",
+        source=dict(argv=["--login"]),
         description="Your instagram username",
         required=False
     ), dict(
         name="password",
-        key="password",
-        source=dict(argv=["--Datasysteme1&"]),
+        key="Datasysteme1&",
+        source=dict(argv=["--password"]),
         description="Your instagram password",
         required=False
     ), dict(

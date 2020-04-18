@@ -42,7 +42,7 @@ schema = [
         required=False
     ), dict(
         name="like_per_run",
-        key="like_per_run",
+        key=296,
         source=dict(argv=["--like-per-run"]),
         description="Number of photos to like per day (over 1000 may cause throttling)",
         type="integer",
@@ -50,7 +50,7 @@ schema = [
 
     ), dict(
         name="media_max_like",
-        key="media_max_like",
+        key=0,
         source=dict(argv=["--media-max-like"]),
         description="Maximum number of likes on photos to like (set to 0 to disable)",
         type="integer",
@@ -58,7 +58,7 @@ schema = [
 
     ), dict(
         name="media_min_like",
-        key="media_min_like",
+        key=0,
         source=dict(argv=["--media-min-like"]),
         description="Minimum number of likes on photos to like (set to 0 to disable)",
         type="integer",
@@ -66,7 +66,7 @@ schema = [
 
     ), dict(
         name="follow_per_run",
-        key="follow_per_run",
+        key=156,
         source=dict(argv=["--follow-per-run"]),
         description="Users to follow per day",
         type="integer",
@@ -74,7 +74,7 @@ schema = [
 
     ), dict(
         name="follow_time",
-        key="follow_time",
+        key=5 * 60 * 60,
         source=dict(argv=["--follow-time"]),
         description="Seconds to wait before unfollowing",
         type="integer",
@@ -82,7 +82,7 @@ schema = [
 
     ), dict(
         name="user_min_follow",
-        key="user_min_follow",
+        key=0,
         source=dict(argv=["--user-min-follow"]),
         description="Check user before following them if they have X minimum of followers. Set 0 to disable",
         type="integer",
@@ -90,7 +90,7 @@ schema = [
 
     ), dict(
         name="user_max_follow",
-        key="user_max_follow",
+        key=0,
         source=dict(argv=["--user-max-follow"]),
         description="Check user before following them if they have X maximum of followers. Set 0 to disable",
         type="integer",
@@ -98,7 +98,7 @@ schema = [
 
     ), dict(
         name="unfollow_per_run",
-        key="unfollow_per_run",
+        key=199,
         source=dict(argv=["--unfollow-per-run"]),
         description="Users to unfollow per day",
         type="integer",
@@ -106,53 +106,53 @@ schema = [
 
     ), dict(
         name="unfollow_recent_feed",
-        key="unfollow_recent_feed",
+        key=True,
         source=dict(argv=["--unfollow-recent-feed"]),
         description="If enabled, will populate database with users from recent feed and unfollow if they meet the conditions. Disable if you only want the bot to unfollow people it has previously followed.",
-        type="integer",
+        type="bool",
         required=False
     ), dict(
         name="unlike_per_run",
-        key="unlike_per_run",
+        key=0,
         source=dict(argv=["--unlike-per-run"]),
         description="Number of media to unlike that the bot has previously liked. Set to 0 to disable.",
         type="integer",
         required=False
     ), dict(
         name="time_till_unlike",
-        key="time_till_unlike",
+        key=3 * 24 * 60 * 60 (3 days),
         source=dict(argv=["--time-till-unlike"]),
         description="How long to wait after liking media before u",
         type="integer",
         required=False
     ), dict(
         name="comment_list",
-        key="comment_list",
+        key="[['this', 'your'], ['photo', 'picture', 'pic', 'shot'], ['is', 'looks', 'is really'], ['great', 'super', 'good'], ['.', '...', '!', '!!']]",
         source=dict(argv=["--comment-list"]),
         description="List of word lists for comment generation. @username@ will be replaced by the media owner's username",
         required=False), dict(
         name="tag_list",
-        key="tag_list",
+        key=['cat', 'car', 'dog', 'l:212999109'],
         source=dict(argv=["--tag-list"]),
         description="Tags to use for finding posts by hasthag or location(l:locationid from e.g. https://www.instagram.com/explore/locations/212999109/los-angeles-california/)",
         required=False
     ), dict(
         name="max_like_for_one_tag",
-        key="max_like_for_one_tag",
+        key=5,
         source=dict(argv=["--max-like-for-one-tag"]),
         description="How many media of a given tag to like at once (out of 21)",
         type="integer",
         required=False
     ), dict(
         name="unfollow_break_min",
-        key="unfollow_break_min",
+        key=15,
         source=dict(argv=["--unfollow-break-min"]),
         description="Minimum seconds to break between unfollows",
         type="integer",
         required=False
     ), dict(
         name="unfollow_break_max",
-        key="unfollow_break_max",
+        key=30,
         source=dict(argv=["--unfollow-break-max"]),
         description="Maximum seconds to break between unfollows",
         type="integer",
